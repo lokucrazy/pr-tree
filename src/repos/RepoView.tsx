@@ -1,7 +1,8 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
-import { Typography, Paper, Box } from '@material-ui/core'
+import { Typography, Box, Paper } from '@material-ui/core'
 import { buildPullURL } from '../utils'
+import { PullRequest } from '../models'
 
 const RepoViewProps = {
   repo: PropTypes.string.isRequired,
@@ -10,7 +11,7 @@ const RepoViewProps = {
 
 function RepoView(props: PropTypes.InferProps<typeof RepoViewProps>) {
   const { repo, user } = props
-  const [prs, setPrs] = React.useState({})
+  const [prs, setPrs] = React.useState(Array<PullRequest>())
 
   const getPrs = async () => {
     const url = buildPullURL(user, repo)
@@ -19,7 +20,7 @@ function RepoView(props: PropTypes.InferProps<typeof RepoViewProps>) {
       if (resp.status == 200) {
         console.log(resp)
         const data = await resp.json()
-        console.log(data)
+        setPrs(data)
       } else {
         console.log(resp)
       }
@@ -38,6 +39,15 @@ function RepoView(props: PropTypes.InferProps<typeof RepoViewProps>) {
   return repo ? (
     <Box mt={2}>
       <Typography variant="h6">{repo}</Typography>
+      <Box my={2}>
+        {prs.map((pr) => (
+          <Box my={2} key={pr.id}>
+          <Paper elevation={3}>
+            {pr.id}
+          </Paper>
+          </Box>
+        ))}
+      </Box>
     </Box>
   ) : null
 }
