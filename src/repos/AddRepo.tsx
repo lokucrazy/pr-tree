@@ -52,7 +52,7 @@ function AddRepo(props: PropTypes.InferProps<typeof AddRepoProps>) {
         error={error} 
         helperText={error ? 'Could not find repo' : ''} 
         label="Add Repo" value={repo} 
-        onChange={(event) => setRepo(event.target.value)}
+        onChange={(event) => { setRepo(event.target.value); setError(false)}}
       />
       <Button className={classnames.addRepo} color="primary" variant="contained" onClick={handleClick} ><AddIcon /></Button>
     </>
