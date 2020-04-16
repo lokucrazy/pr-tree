@@ -14,26 +14,28 @@ const useStyles = makeStyles({
 
 const AddRepoProps = {
   addRepo: PropTypes.func.isRequired,
-  user: PropTypes.string.isRequired
+  user: PropTypes.string.isRequired,
+  api: PropTypes.string.isRequired,
 }
 
 function AddRepo(props: PropTypes.InferProps<typeof AddRepoProps>) {
-  const { addRepo, user } = props
-  if (!user) return null
+  const { addRepo, user, api } = props
+  if (!user || !api) return null
   const classnames = useStyles()
   const [repo, setRepo] = React.useState('')
   const [repos, setRepos] = React.useState(Array<String>())
   const [error, setError] = React.useState(false)
   const handleClick = React.useCallback(async () => {
     if (repo) {
-      const url = buildRepoURL(user, repo)
+      const url = buildRepoURL(api, user, repo)
       if (!url) {
         setError(true)
         return
       }
       try {
+        console.log(url)
         const resp = await fetch(url)
-        const [, match1, match2] = url.match(/https:\/\/api.github.com\/repos\/([A-Za-z0-9-_]+)(?:\/([A-Za-z0-9-_]+))/) ?? ['','','']
+        const [, match1, match2] = url.match(/\/repos\/([A-Za-z0-9-_]+)(?:\/([A-Za-z0-9-_]+))/) ?? ['','','']
         if (resp.status == 200) {
           addRepo((user === match1 && match2) || (user !== match1 && repo))
           setRepo('')

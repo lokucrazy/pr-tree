@@ -30,6 +30,7 @@ function RepoList() {
     setRepos([...repos, newRepo])
   }
   const user = userApiContext.user ?? ''
+  const api = userApiContext.api ?? ''
   
   const saveRepos = () => {
     sessionStorage.setItem('github-repos', repos.toString())
@@ -45,7 +46,7 @@ function RepoList() {
       <Grid item xs={2}>
         <Container>
           <Box py={1} clone><Typography variant="h5">Repos for {user}</Typography></Box>
-          <AddRepo user={user ?? ''} addRepo={handleChange} />
+          <AddRepo user={user} api={api} addRepo={handleChange} />
           <Box my={1}>
             <Button size="small" variant="outlined" onClick={() => saveRepos()}>Save Repo List</Button>
           </Box>
@@ -66,7 +67,7 @@ function RepoList() {
         </Container>
       </Grid>
       <Grid item xs={10}>
-        <RepoView user={user ?? ''} repo={repo}/>
+        <RepoView user={user} api={api} repo={repo}/>
       </Grid>
     </Grid>
   )

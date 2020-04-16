@@ -16,7 +16,7 @@ function Settings(props: PropTypes.InferProps<typeof SettingsProps>) {
   const [api, setApi] = React.useState(userApiContext.api ?? '')
   const [userError, setUserError] = React.useState(false)
   const [apiError, setApiError] = React.useState(false)
-  const apiRegex = /https:\/\/api.github(.[a-z0-9-_]+)?.com/
+  const apiRegex = /https:\/\/(?:(?:api\.github.com)|(?:github(?:.[a-z0-9-_]+)?.com\/api\/v3))/
 
   const validate = (): boolean => {
     if (!api) { setApiError(true); }
@@ -79,6 +79,7 @@ function Settings(props: PropTypes.InferProps<typeof SettingsProps>) {
           value={api}
           onChange={(event) => {
             const match = event.target.value.match(apiRegex)
+            console.log(match)
             if (match?.length) {
               const [fullWord] = match
               setApi(fullWord)

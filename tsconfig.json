@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "lib": ["es6", "dom"],
-    "module": "commonjs",
+    "lib": ["ES6", "DOM"],
+    "module": "COMMONJS",
     "target": "ES6",
     "outDir": "./build",
     "noImplicitAny": true,

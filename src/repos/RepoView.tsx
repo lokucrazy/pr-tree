@@ -6,15 +6,16 @@ import { PullRequest } from '../models'
 
 const RepoViewProps = {
   repo: PropTypes.string.isRequired,
-  user: PropTypes.string.isRequired
+  user: PropTypes.string.isRequired,
+  api: PropTypes.string.isRequired,
 }
 
 function RepoView(props: PropTypes.InferProps<typeof RepoViewProps>) {
-  const { repo, user } = props
+  const { repo, user, api } = props
   const [prs, setPrs] = React.useState(Array<PullRequest>())
 
   const getPrs = async () => {
-    const url = buildPullURL(user, repo)
+    const url = buildPullURL(api, user, repo)
     try {
       const resp = await fetch(url)
       if (resp.status == 200) {
